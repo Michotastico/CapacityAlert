@@ -1,6 +1,7 @@
 from psutil import virtual_memory, disk_usage
 import click
 from slackython import Slackython
+import os
 
 GIGABYTE = 1024 * 1024 * 1024
 
@@ -77,10 +78,13 @@ def check_system(
     Program to check the system capacity on RAM and DISK and send alert if is
     lower than certain threshold set by the user.
     """
+    machine_name = os.uname().nodename
+    alert_header = '[{}] System Supervisor'.format(machine_name)
+    
     alert = default_alert
     if slack_webhook:
         notificator = Slackython(slack_webhook, slack_admins)
-        alert = lambda msg: notificator.send_error(msg, 'System Supervisor')
+        alert = lambda msg: notificator.send_error(msg, alert_header)
 
     check_ram(alert, ram_percentage, ram_fixed)
     check_disk(alert, disk_percentage, disk_fixed)
