@@ -25,9 +25,9 @@ def check_ram(
     available_memory = memory.available
 
     if percentage:
-        threshold = total_memory * percentage
+        threshold = total_memory * float(percentage)
     elif fixed_amount:
-        threshold = fixed_amount * GIGABYTE
+        threshold = float(fixed_amount) * GIGABYTE
     else:
         threshold = GIGABYTE
 
@@ -65,9 +65,9 @@ def check_disk(
     percentage_disk = disk.percent
 
     if percentage:
-        must_alert = percentage_disk <= percentage
+        must_alert = percentage_disk <= float(percentage)
     elif fixed_amount:
-        must_alert = available_disk <= fixed_amount * GIGABYTE
+        must_alert = available_disk <= float(fixed_amount) * GIGABYTE
     else:
         must_alert = available_disk <= GIGABYTE
 
